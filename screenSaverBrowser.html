@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<canvas id="saverCanvas" width="800" height="600"></canvas>
+
+<script type="text/javascript">
+
+var canvas;
+var canvasContext;
+
+var timer;
+
+var position = {x: 0, y: 100};
+var speed = {x: 10, y: -5};
+
+const dotSize = {height: 44, width: 44}
+var dotColor = ['green', 'purple', 'yellow', 'magenta', 'cyan', 'white', 'red', 'blue', 'brown', 'orange'];
+var colorIndex = 0;
+
+
+window.onload = function(){
+  canvas = document.getElementById("saverCanvas");
+  canvasContext = canvas.getContext("2d");
+  canvasContext.fillStyle = "black";
+  canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+
+  timer = setInterval(()=>{
+    dot();
+  }, 10);
+}
+
+function dot(){
+
+  canvasContext.fillStyle = "black";
+  canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+
+  canvasContext.fillStyle = dotColor[colorIndex];
+  canvasContext.fillRect(position.x, position.y, dotSize.width, dotSize.height);
+
+  position.x = position.x + speed.x;
+  position.y = position.y + speed.y;
+
+  if((position.x + dotSize.width) >= canvas.width || position.x <= 0){
+    speed.x = speed.x * (-1);
+    colorIndex = colorIndex + 1 >= dotColor.length ? 0 : colorIndex + 1;
+  }
+
+  if((position.y + dotSize.height) >= canvas.height || position.y <= 0){
+    speed.y = speed.y * (-1);
+    colorIndex = colorIndex + 1 >= dotColor.length ? 0 : colorIndex + 1;
+  }
+
+
+}
+
+</script>
+
+</html>
