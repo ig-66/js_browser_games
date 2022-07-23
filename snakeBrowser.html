@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+
+<script type="text/javascript">
+
+var direction = {x: 10, y: 0};
+
+var canvas;
+var canvasContext;
+
+var userInput = {x: 0, y: 0};
+
+var timer;
+
+var position = {x: 0, y: 100};
+var speed = {x: 10, y: -5};
+
+var snake = [{x:210,y:210},{x:220,y:210},{x:230,y:210},{x:240,y:210}];
+
+const dotSize = {height: 44, width: 44}
+var dotColor = ['green', 'purple', 'yellow', 'magenta', 'cyan', 'white', 'red', 'blue', 'brown', 'orange'];
+var colorIndex = 0;
+
+
+window.onload = function(){
+  canvas = document.getElementById("gameCanvas");
+  canvasContext = canvas.getContext("2d");
+  canvasContext.fillStyle = "black";
+  canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+
+  document.addEventListener('keydown', function(event) {
+
+    console.log('pressed key: ' + event.key);
+
+    if(event.key == 'ArrowLeft') {
+      userInput = {x:-10, y:0};
+    }
+    else if(event.key == 'ArrowRight') {
+      userInput = {x:10, y:0};
+    }
+    else if(event.key == 'ArrowDown'){
+      userInput = {x:0, y:10};
+    }
+    else if(event.key == 'ArrowUp'){
+      userInput = {x:0, y:-10};
+    }
+  });
+
+
+  timer = setInterval(()=>{
+    moveSnake();
+  }, 100);
+}
+
+
+function moveSnake(){
+
+  canvasContext.fillStyle = "black";
+  canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+
+  for(var i = 0; i < snake.length; i++){
+    canvasContext.fillStyle = 'white';
+    canvasContext.fillRect(snake[i].x, snake[i].y, 10, 10);
+  }
+
+  var headIndex = snake.length - 1;
+
+  var nextHeadPos = {
+    x: 0,
+    y: 0
+  }
+
+
+  console.log('NextHeadPos: ' + JSON.stringify(nextHeadPos));
+
+  if(!isGoingBackwards(snake,
+    {
+      x: snake[headIndex].x + userInput.x,
+      y: snake[headIndex].y + userInput.y
+    }
+  )){
+    direction = userInput;
+  }
+
+  nextHeadPos = {
+    x: snake[headIndex].x + direction.x,
+    y: snake[headIndex].y + direction.y
+  }
+
+  snake.push(nextHeadPos);
+
+  snake = snake.slice(1);
+
+  console.log('New snake: ' + JSON.stringify(snake));
+}
+
+
+function isGoingBackwards(snakeObj, newHeadPosObj){
+
+  // this is wrong
+  for(var i = 0; i < snake.length; i++){
+    if(JSON.stringify(snakeObj[i]) === JSON.stringify(newHeadPosObj)) return true;
+  }
+
+  /* use this one:
+  var neckIndex = snake.length - 2;
+
+  if(JSON.stringify(snakeObj[neckIndex]) === JSON.stringify(newHeadPosObj)) return true;
+  */
+  return false;
+}
+
+
+function hasCollided(){
+  // function to check if snake's head collided with its body
+  for(var i = 0; i < snake.length; i++){
+    if(JSON.stringify(snakeObj[i]) === JSON.stringify(newHeadPosObj)) return true;
+  }
+
+  return false;
+}
+
+
+
+
+
+function whereToGo(){
+  let value = Math.floor(Math.random() * 4);
+
+  if(value === 0) return {x:10, y:0};
+  if(value === 1) return {x:-10, y:0};
+  if(value === 2) return {x:0, y:10};
+  if(value === 3) return {x:0, y:-10};
+}
+
+</script>
+
+</html>
