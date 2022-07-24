@@ -103,7 +103,7 @@ function isGoingBackwards(snakeObj, newHeadPosObj){
 }
 
 
-function hasCollided(){
+function hasCollidedOnItself(snakeObj, newHeadPosObj){
   // function to check if snake's head collided with its body
   for(var i = 0; i < snake.length; i++){
     if(JSON.stringify(snakeObj[i]) === JSON.stringify(newHeadPosObj)) return true;
