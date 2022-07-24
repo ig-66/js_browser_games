@@ -96,8 +96,7 @@ function moveSnake(){
 
 
 function isGoingBackwards(snakeObj, newHeadPosObj){
-
-  var neckIndex = snake.length - 2;
+  var neckIndex = snakeObj.length - 2;
 
   if(JSON.stringify(snakeObj[neckIndex]) === JSON.stringify(newHeadPosObj)) return true;
   return false;
