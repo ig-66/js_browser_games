@@ -87,11 +87,11 @@ function moveSnake(){
     y: snake[headIndex].y + direction.y
   }
 
-  snake.push(nextHeadPos);
-
-  snake = snake.slice(1);
-
-  console.log('New snake: ' + JSON.stringify(snake));
+  if (hasCollidedOnItself(snake, nextHeadPos) || hasColidedOnWalls(snake, nextHeadPos, canvas)) {
+  } else {
+    snake.push(nextHeadPos);
+    snake = snake.slice(1);
+  }
 }
 
 
@@ -112,6 +112,9 @@ function hasCollidedOnItself(snakeObj, newHeadPosObj){
 }
 
 
+function hasColidedOnWalls(snakeObj, nextHeadPosObj,canvasObj){
+  if(nextHeadPosObj.x < 0 || nextHeadPosObj.y < 0 || nextHeadPosObj.x >= canvasObj.width || nextHeadPosObj.y >= canvasObj.height) return true;
+  return false;
 }
 
 </script>
