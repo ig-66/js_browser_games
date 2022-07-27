@@ -12,6 +12,8 @@
 var direction = {x: 10, y: 0};
 var snakeColor = 'white';
 
+var fruit;
+
 var canvas;
 var canvasContext;
 
@@ -50,6 +52,11 @@ window.onload = function(){
     }
   });
 
+  let xRandomPos = Math.floor(Math.random() * canvas.width/10)*10;
+  let yRandomPos = Math.floor(Math.random() * canvas.height/10)*10;
+
+  fruit = {x: xRandomPos, y: yRandomPos};
+  console.log('first fruit: ' + fruit);
 
   timer = setInterval(()=>{
     moveSnake();
@@ -66,6 +73,9 @@ function moveSnake(){
     canvasContext.fillStyle = snakeColor;
     canvasContext.fillRect(snake[i].x, snake[i].y, 10, 10);
   }
+
+  canvasContext.fillStyle = 'red';
+  canvasContext.fillRect(fruit.x, fruit.y, 10, 10);
 
   var headIndex = snake.length - 1;
 
@@ -94,6 +104,14 @@ function moveSnake(){
     snake.push(nextHeadPos);
     snake = snake.slice(1);
   }
+
+  if(hasEatenTheFruit(fruit, snake)){
+    fruit = placeNewFruit();
+
+    // should increase snake size
+  }
+
+
 }
 
 
@@ -116,6 +134,21 @@ function hasCollidedOnItself(snakeObj, newHeadPosObj){
 
 function hasColidedOnWalls(snakeObj, nextHeadPosObj,canvasObj){
   if(nextHeadPosObj.x < 0 || nextHeadPosObj.y < 0 || nextHeadPosObj.x >= canvasObj.width || nextHeadPosObj.y >= canvasObj.height) return true;
+  return false;
+}
+
+function placeNewFruit(){
+  let xRandomPos = Math.floor(Math.random() * canvas.width/10)*10;
+  let yRandomPos = Math.floor(Math.random() * canvas.height/10)*10;
+
+  return {x: xRandomPos, y: yRandomPos};
+}
+
+function hasEatenTheFruit(fruitObj, snakeObj){
+  const snakeHead = snakeObj[snakeObj.length - 1];
+  console.log('snake head: ' + JSON.stringify(snakeHead))
+  if(JSON.stringify(snakeHead) === JSON.stringify(fruitObj)) return true;
+
   return false;
 }
 
