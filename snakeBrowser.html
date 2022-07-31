@@ -102,13 +102,12 @@ function moveSnake(){
     snakeColor = 'red';
   } else {
     snake.push(nextHeadPos);
-    snake = snake.slice(1);
   }
 
   if(hasEatenTheFruit(fruit, snake)){
     fruit = placeNewFruit();
-
-    // should increase snake size
+  } else {
+    snake = snake.slice(1);
   }
 
 
